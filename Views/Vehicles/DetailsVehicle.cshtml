@@ -1,0 +1,106 @@
+﻿@model CitasMantenimiento.Data.Entities.Vehicle
+
+@{
+    ViewData["Title"] = "DetailsVehicle";
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+<div class="row">
+    <div class="col-md-11">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Registros</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Plaque)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Plaque)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="AddAppointment" asp-route-id="@Model.Id" class="btn btn-primary">Nueva Cita</a>
+    <a asp-action="EditAppointment" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-success">Regresar</a>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Citas</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover table-responsive table-striped" id="MyTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Appointments.FirstOrDefault().Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Appointments.FirstOrDefault().AppointmentTime.Time)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Appointments.FirstOrDefault().statusVehicle.Status)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Appointments)
+                        {
+                        <tr>
+                            <td>
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Date))
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AppointmentTime.Time)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.statusVehicle.Status)
+                            </td>
+                            <td>
+                                <a asp-action="DeleteAppointment" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a> 
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="/js/deleteDialog.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                },
+                "aLengthMenu": [
+                    [25, 50, 100, 200, -1],
+                    [25, 50, 100, 200, "Todos"]
+                ]
+            });
+            // Delete item
+            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/SystemTypes/DeleteSubSystem/', false);
+        });
+    </script>
+}
+
