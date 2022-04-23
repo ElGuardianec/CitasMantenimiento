@@ -63,6 +63,7 @@ La base de Datos contiene 4 tablas BDD (SQL SERVER)
 
 
 Se realizo una arquitectura monolitica con el patron MVC lenguaje C# y metodologia Code First.
+Tiempo de desarrollo 4 horas, termina faltando el boton de eliminar y actualizar y optimización en vistas
 
 Muchas Gracias
 
